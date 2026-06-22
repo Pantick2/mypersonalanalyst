@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Analyst</title>
+    
+    <!-- 1. SCRIPTUL PRINCIPAL GOOGLE ADSENSE -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    
+    <!-- 2. BANNERUL TĂU DE CONSINTĂMÂNT (COOKIE-SCRIPT) INTEGRAT NATIV -->
+    <script type="text/javascript" charset="UTF-8" src="https://cookie-script.com"></script>
+    
+    <!-- Legătura nativă Flask către fișierul de design -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Meniu Superior (Navbar) -->
+<nav class="navbar">
+    <div class="logo">My Personal Analyst</div>
+    <div class="nav-links">
+        <a id="linkGhid" onclick="openModal('modalGhid')">📖 User Guide & API Key</a>
+        <a id="linkTerms" href="/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
+        <a id="linkPrivacy" href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a id="linkContact" onclick="openModal('modalContact')">Contact</a>
+        
+        <!-- Butonul tău permanent de donații Linktree -->
+        <a href="https://linktr.ee/safescanallergyscan" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="btn-donate-linktree">
+           ☕ Donate
+        </a>
+
+        <!-- Selectorul de limbi internațional -->
+        <select id="langSelect" class="lang-dropdown" onchange="changeLanguage()" title="Select Language">
+            <option value="en">🌐 English</option>
+            <option value="ro">🌐 Română</option>
+        </select>
+    </div>
+</nav>
+
+<!-- Structura pe 3 coloane: Reclamă Stânga | Aplicație Centru | Reclamă Dreapta -->
+<div class="main-content-layout">
+    
+    <!-- 📊 RECLAMĂ STÂNGA (Vertical Skyscraper 160x600) -->
+    <aside class="sidebar-ad-left">
+        <div class="ad-caption-text">Advertisement</div>
+        <ins class="adsbygoogle ad-skyscraper-vertical"
+             data-ad-client="pub-3528838516008000"
+             data-ad-slot="7720266395"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </aside>
+
+    <!-- CONTAINERUL CENTRAL CU FORMULARUL DE ANALIZĂ -->
+    <div class="container-central">
+        <div class="card">
+            
+            <!-- Căsuța obligatorie de bifare GDPR -->
+            <div class="terms-checkbox-container">
+                <label class="checkbox-label" for="chkTermsObligatoriu">
+                    <input type="checkbox" id="chkTermsObligatoriu" onchange="toggleFormLock()">
+                    <span id="lblBifaText">Accept terms...</span>
+                </label>
+            </div>
+
+            <!-- Avertisment de blocare pe ecran -->
+            <div id="warningBlocat" class="warning-box">
+                <span id="lblBlocatText">🔒 Lock warning...</span>
+            </div>
+
+            <!-- Cele 3 carduri de prezentare inițiale -->
+            <div id="featuresGrid" class="features-grid">
+                <div class="feature-card-item" id="cardC1"></div>
+                <div class="feature-card-item" id="cardC2"></div>
+                <div class="feature-card-item" id="cardC3"></div>
+            </div>
+
+            <!-- Formularul de Lucru (Deblocat prin bifă) -->
+            <div id="mainFormArea" class="form-hidden-area">
+                <div class="input-group">
+                    <label class="input-label" for="apiKeyInput">Gemini API Key:</label>
+                    <input type="password" id="apiKeyInput" name="apiKeyInput" placeholder="Paste your AIzaSy... key here">
+                </div>
+
+                <div class="input-group">
+                    <label id="lblUploadType" class="input-label" for="contractFile">Upload Document:</label>
+                    <input type="file" id="contractFile" name="contractFile" accept=".pdf,.docx,.xlsx,.txt" class="file-input-custom">
+                </div>
+
+                <div class="input-group">
+                    <label id="lblTextType" class="input-label" for="contractText">Or paste text manually:</label>
+                    <textarea id="contractText" name="contractText"></textarea>
+                </div>
+
+                <button class="btn-analyze" id="btnAnalyze" onclick="sendToAnalysis()">Analyze Document</button>
+            </div>
+            
+            <!-- Animația de încărcare -->
+            <div class="loading" id="loadingArea">
+                <div class="spinner"></div>
+                <span id="lblLoading">Analyzing...</span>
+            </div>
+
+            <!-- Afișare Raport Final și Descărcare text -->
+            <div id="resultsWrapper" class="results-wrapper">
+                <h2 id="lblRaportTitlu" class="raport-title">🔍 Report Title</h2>
+                <div class="results-box" id="resultsBox"></div>
+                
+                <button id="btnDownloadTxt" onclick="downloadReportAsTxt()" class="btn-download-custom">
+                    📥 <span id="lblBtnDown">Download Report (.txt)</span>
+                </button>
+
+                <!-- 📊 RECLAMĂ ORIZONTALĂ SUB RAPORT -->
+                <div class="banner-final-ad-container">
+                    <div class="ad-caption-text">Advertisement</div>
+                  <ins class="adsbygoogle ad-banner-horizontal"
+     data-ad-client="pub-3528838516008000"
+     data-ad-slot="7281282692"></ins>
+
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+            </div>
+
+            <!-- Subsolul tău de brand -->
+            <div id="lblSubsol" class="subsol-brand"></div>
+        </div>
+    </div>
+
+    <!-- 📊 RECLAMĂ DREAPTA (Vertical Skyscraper 160x600) -->
+    <aside class="sidebar-ad-right">
+        <div class="ad-caption-text">Advertisement</div>
+        <ins class="adsbygoogle ad-skyscraper-vertical"
+             data-ad-client="pub-3528838516008000"
+             data-ad-slot="9945194810"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </aside>
+</div>
+<!-- Pop-up Ghid Gemini detaliat -->
+<div id="modalGhid" class="modal">
+    <div class="modal-content modal-large">
+        <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
+        <h2 id="titleGhid" class="modal-title-blue">User Guide</h2>
+        <div id="textGhid" class="modal-text-layout"></div>
+    </div>
+</div>
+
+<!-- Pop-up Formular Contact -->
+<div id="modalContact" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('modalContact')">&times;</span>
+        <h2 id="titleContact" class="modal-title-default">Contact Us</h2>
+        <div id="textContact" class="modal-text-layout"></div>
+    </div>
+</div>
+
+<div class="footer-copyright">
+    &copy; 2026 My Personal Analyst. All rights reserved.
+</div>
+
+<!-- Apelarea bazei bilingve transmise prin server -->
+<script src="{{ url_for('static', filename='translations.js') }}"></script>
+<script>
+    function changeLanguage() {
+        const selectedLang = document.getElementById('langSelect').value;
+        
+        document.getElementById('lblBifaText').innerText = translations[selectedLang].bifaText;
+        document.getElementById('lblBlocatText').innerText = translations[selectedLang].blocatText;
+        document.getElementById('lblSubsol').innerText = translations[selectedLang].subsol;
+        document.getElementById('cardC1').innerHTML = translations[selectedLang].c1;
+        document.getElementById('cardC2').innerHTML = translations[selectedLang].c2;
+        document.getElementById('cardC3').innerHTML = translations[selectedLang].c3;
+        
+        document.getElementById('lblUploadType').innerText = translations[selectedLang].up_t;
+        document.getElementById('lblTextType').innerText = translations[selectedLang].tx_t;
+        document.getElementById('btnAnalyze').innerText = translations[selectedLang].btnText;
+        document.getElementById('lblLoading').innerText = translations[selectedLang].loading;
+        
+        document.getElementById('linkTerms').innerText = translations[selectedLang].navTerms;
+        document.getElementById('linkPrivacy').innerText = translations[selectedLang].navPrivacy;
+        document.getElementById('linkContact').innerText = translations[selectedLang].navContact;
+        document.getElementById('linkGhid').innerText = translations[selectedLang].navGhid;
+        
+        document.getElementById('titleGhid').innerText = translations[selectedLang].modalGhidTitle;
+        document.getElementById('textGhid').innerHTML = translations[selectedLang].modalGhidBody;
+        document.getElementById('titleContact').innerText = translations[selectedLang].modalContactTitle;
+        document.getElementById('textContact').innerHTML = translations[selectedLang].modalContactBody;
+
+        document.getElementById('lblRaportTitlu').innerText = selectedLang === 'ro' ? "🔍 Raport de Audit Contractual" : "🔍 Contractual Audit Report";
+        document.getElementById('lblBtnDown').innerText = selectedLang === 'ro' ? "Descarcă Raportul (.txt)" : "Download Report (.txt)";
+    }
+
+    window.onload = function() { changeLanguage(); };
+
+    function toggleFormLock() {
+        const isChecked = document.getElementById('chkTermsObligatoriu').checked;
+        document.getElementById('mainFormArea').style.display = isChecked ? 'block' : 'none';
+        document.getElementById('warningBlocat').style.display = isChecked ? 'none' : 'flex';
+        document.getElementById('featuresGrid').style.display = isChecked ? 'none' : 'grid';
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    window.onclick = function(e) { if (e.target.classList.contains('modal')) { e.target.style.display = 'none'; } }
+
+    function downloadReportAsTxt() {
+        const textData = document.getElementById('resultsBox').innerText;
+        const blob = new Blob([textData], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'Audit_Report_MyPersonalAnalyst.txt';
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }
+
+    async function sendToAnalysis() {
+        const text = document.getElementById('contractText').value;
+        const fileInput = document.getElementById('contractFile');
+        const selectedLang = document.getElementById('langSelect').value;
+        const userKey = document.getElementById('apiKeyInput').value;
+
+        if(!userKey.trim()) {
+            alert(selectedLang === 'en' ? "Please enter your Gemini API Key first!" : "Te rugăm să introduci cheia Gemini API mai întâi!");
+            return;
+        }
+        if(!text.trim() && fileInput.files.length === 0) {
+            alert(translations[selectedLang].alertText);
+            return;
+        }
+
+        const loadingArea = document.getElementById('loadingArea');
+        const resultsWrapper = document.getElementById('resultsWrapper');
+        const btnAnalyze = document.getElementById('btnAnalyze');
+
+        loadingArea.style.display = 'block';
+        resultsWrapper.style.display = 'none';
+        btnAnalyze.disabled = true;
+
+        const formData = new FormData();
+        formData.append('contract', text);
+        formData.append('lang', selectedLang);
+        formData.append('key', userKey);
+        if(fileInput.files.length > 0) {
+            formData.append('file', fileInput.files);
+        }
+
+        try {
+            const response = await fetch('/api/analizeaza', { method: 'POST', body: formData });
+            const data = await response.json();
+            
+            document.getElementById('resultsBox').innerText = data.rezultat;
+            resultsWrapper.style.display = 'block';
+        } catch (error) {
+            alert("Error connecting to backend server.");
+        } finally {
+            loadingArea.style.display = 'none';
+            btnAnalyze.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
