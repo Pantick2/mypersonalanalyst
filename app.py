@@ -147,7 +147,14 @@ def api_analizeaza():
 
 @app.route('/robots.txt')
 def robots():
-    return "User-agent: *\nAllow: /", 200, {'Content-Type': 'text/plain'}
+    response = Flask.response_class(
+        response="User-agent: *\nAllow: /",
+        status=200,
+        mimetype='text/plain'
+    )
+    # Forțăm eliminarea blocajului la nivel de header HTTP pentru ambele domenii
+    response.headers['X-Robots-Tag'] = 'all'
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
