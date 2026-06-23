@@ -12,7 +12,12 @@
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-color);
+    /* Chemăm imaginea salvată local în folderul static */
+    background-image: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.85)), url('background.png');
+    background-size: cover;        /* Forțează imaginea să umple tot ecranul */
+    background-position: center;   /* Centrează imaginea perfect */
+    background-repeat: no-repeat;  /* Nu lasă imaginea să se repete sub formă de mozaic */
+    background-attachment: fixed;  /* Imaginea rămâne fixă pe fundal când dai scroll */
     color: var(--text-color);
     margin: 0;
     padding: 0;
@@ -20,6 +25,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+
 
 .navbar {
     background-color: var(--card-bg);
