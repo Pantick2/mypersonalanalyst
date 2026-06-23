@@ -145,5 +145,9 @@ def api_analizeaza():
     except Exception as e:
         return jsonify({'rezultat': f"❌ AI Error: {str(e)}"})
 
+@app.route('/robots.txt')
+def robots():
+    return "User-agent: *\nAllow: /", 200, {'Content-Type': 'text/plain'}
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
