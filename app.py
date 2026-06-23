@@ -156,5 +156,11 @@ def robots():
     response.headers['X-Robots-Tag'] = 'all'
     return response
 
+@app.route('/ads.txt')
+def ads_txt():
+    # Returnează textul tău oficial cerut de Google AdSense
+    continut_ads = "google.com, pub-3528838516008000, DIRECT, f08c47fec0942fa0"
+    return continut_ads, 200, {'Content-Type': 'text/plain', 'X-Robots-Tag': 'all'}
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
