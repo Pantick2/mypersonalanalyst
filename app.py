@@ -161,6 +161,10 @@ def ads_txt():
     # Returnează textul tău oficial cerut de Google AdSense
     continut_ads = "google.com, pub-3528838516008000, DIRECT, f08c47fec0942fa0"
     return continut_ads, 200, {'Content-Type': 'text/plain', 'X-Robots-Tag': 'all'}
+    
+@app.route('/api/trezire', methods=['GET'])
+def api_trezire():
+    return jsonify({'status': 'Backend is awake and active', 'timestamp': time.time()})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
