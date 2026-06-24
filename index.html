@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liak Studio | Premium Portfolio</title>
+    <!-- Font modern premium -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <!-- Conectare la fișierul CSS extern -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVIGARE -->
+    <nav class="navbar">
+        <a href="#" class="nav-logo">
+            <img src="logo.png" alt="Liak Studio Logo">
+            <span>Liak Studio</span>
+        </a>
+        
+        <!-- Linkuri desktop -->
+        <div class="nav-links">
+            <a href="#proiecte">Portofoliu</a>
+            <a href="#contact" class="btn-nav-contact">Start Proiect</a>
+        </div>
+
+        <!-- Butonul Hamburger (vizibil doar pe mobil) -->
+        <button class="hamburger-menu" aria-label="Deschide meniul">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Meniu Mobil Overlay -->
+    <div class="mobile-overlay">
+        <div class="mobile-links">
+            <a href="#proiecte" class="mobile-link">Portofoliu</a>
+            <a href="#contact" class="btn-nav-contact mobile-link">Start Proiect</a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <header class="hero">
+        <h1>We Build Next-Generation Digital Experiences</h1>
+        <p>Hub-ul meu personal unde listez aplicații web de nișă, automatizări inteligente și interfețe premium optimizate pentru viteză.</p>
+        <a href="#contact" class="btn-nav-contact btn-hero">Pornește Colaborarea</a>
+    </header>
+
+    <!-- PORTOFOLIU -->
+    <section class="portfolio-section" id="proiecte">
+        <h2 class="section-title">Proiecte & Aplicații active</h2>
+        <div class="projects-grid">
+            
+            <!-- Proiectul 1 (Activ) -->
+            <article class="project-card">
+                <div>
+                    <div class="project-tag">AI Contract Auditor</div>
+                    <h3>My Personal Analyst</h3>
+                    <p>Platformă SaaS avansată de scanare textuală bazată pe AI. Detectează instantaneu clauzele abuzive, capcanele financiare și generează idei de renegociere bilingve în timp real.</p>
+                </div>
+               <a href="https://mypersonalanalyst.com" target="_blank" rel="noopener" class="btn-project-link">Deschide Aplicația →</a>
+            </article>
+
+            <!-- Proiectul 2 (Șablon pregătit pentru viitor) -->
+            <article class="project-card">
+                <div>
+                    <div class="project-tag">SaaS / Web App</div>
+                    <h3>Următorul tău proiect</h3>
+                    <p>Descrierea viitoarei tale aplicații. Poți copia această structură direct în HTML pentru a adăuga oricâte aplicații dorești în grilă.</p>
+                </div>
+                <a href="#" class="btn-project-link btn-disabled">În curând</a>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section" id="contact">
+        <h2>Să colaborăm</h2>
+        <p>Ai un proiect în minte sau vrei să construim o soluție personalizată? Trimite un mesaj:</p>
+        <form class="contact-form">
+            <input type="text" class="form-input" placeholder="Numele tău" required>
+            <input type="email" class="form-input" placeholder="Adresa de email" required>
+            <textarea class="form-textarea" placeholder="Descrie pe scurt ideea proiectului tău..." required></textarea>
+            <button type="submit" class="btn-submit">Trimite Mesajul</button>
+        </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        &copy; 2026 Liak Studio. Toate drepturile rezervate. Deținut de IULIAN ICHIM-UNGUREANU.
+    </footer>
+
+    <!-- Conectare la fișierul JavaScript extern -->
+    <script src="script.js"></script>
+</body>
+</html>
