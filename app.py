@@ -164,7 +164,21 @@ def ads_txt():
     
 @app.route('/api/trezire', methods=['GET'])
 def api_trezire():
-    return jsonify({'status': 'Backend is awake and active', 'timestamp': time.time()})
+    # 1. Forțăm procesorul să ruleze o buclă de calcul pentru a activa resursele serverului
+    simulare_calcul = sum(i * i for i in range(5000))
+    
+    # 2. Simulăm o mini-analiză de text în Python pentru a menține modulele în memorie
+    text_fictiv = "This is a dummy contract clause designed to keep the full Python backend engine warm and prevent deep sleep."
+    numar_cuvinte = len(text_fictiv.split())
+    
+    # 3. Returnăm răspunsul complet, inclusiv timestamp-ul tău original
+    return jsonify({
+        'status': 'Backend is awake and fully active', 
+        'timestamp': time.time(),
+        'engine_check': f'Processed {numar_cuvinte} dummy words successfully.',
+        'calc_checksum': simulare_calcul
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
