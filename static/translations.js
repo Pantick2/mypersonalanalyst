@@ -21,7 +21,7 @@ const translations = {
         b_down: "📥 Download Report (.txt)",
         
         // Fereastra Pop-up pentru Contact (Rămâne în JS fiind scurtă)
-    modalContactBody: `
+  modalContactBody: `
     <p style="margin-bottom:1rem;">Have questions, feature requests, or business inquiries? Send us a direct message:</p>
     <form action="https://formspree.io" method="POST" style="display:flex; flex-direction:column; gap:10px;">
         <input type="text" name="name" id="c_name" placeholder="Your Name" required style="width:100%; padding:0.6rem; background:#0b0f19; border:1px solid #334155; color:white; border-radius:4px;">
@@ -29,6 +29,8 @@ const translations = {
         <textarea name="message" id="c_message" placeholder="Type your message here..." required style="width:100%; padding:0.6rem; background:#0b0f19; border:1px solid #334155; color:white; border-radius:4px; height:100px; padding:0.6rem; border-radius:4px;"></textarea>
         <button type="submit" style="background:#2563eb; color:white; border:none; padding:0.7rem; font-weight:bold; border-radius:4px; cursor:pointer;">Send Message</button>
     </form>
+`,
+
             <div id="contactSuccessMsg" style="display:none; color:#10b981; margin-top:10px; font-weight:bold;">✉️ Message sent successfully! We will get back to you shortly.</div>
         `,
 
