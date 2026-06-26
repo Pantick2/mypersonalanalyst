@@ -18,8 +18,10 @@ from google import genai
 import pypdf
 import docx
 import openpyxl
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # 🔒 CREĂM COADA GLOBALĂ SECURIZATĂ NATIVĂ (Ține utilizatorii la rând)
 coada_globala = threading.Lock()
