@@ -1,12 +1,12 @@
-# =====================================================================
-# 🔒 SISTEM ANTIFURT ȘI VERIFICARE INTEGRITATE (LICENȚĂ EXCLUSIVELY)
-# =====================================================================
-SEMNATURA_OBLIGATORIE = "IULIAN_ICHIM_UNGUREANU_ALIAS_LIAK_STUDIO_ASIST_SCUT_2026"
+# =========================================================
+# # 🔒 SISTEM ANTIFURT ȘI VERIFICARE INTEGRITATE COD
+# =========================================================
+SEMNATURA_OBLIGATORIE = "IULIAN_ICHIM_UNGUREANU"
 try:
     with open(__file__, "r", encoding="utf-8") as f:
         if "IULIAN_ICHIM_UNGUREANU" not in f.read():
-            print("❌ EROARE: Licență invalidă sau cod modificat.")
-            exit()
+            import sys
+            sys.exit("❌ EROARE: Licență invalidă")
 except Exception:
     pass
 
