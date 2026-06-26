@@ -182,5 +182,33 @@ def api_trezire():
     })
 
 
+import threading
+import time
+
+def keep_backend_alive():
+    """Rulează un proces intern continuu pentru a preveni adormirea backend-ului"""
+    # Așteptăm 20 de secunde ca serverul principal să pornească complet
+    time.sleep(20)
+    while True:
+        try:
+            # Forțăm o simulare de procesare de text în Python
+            test_text = "Internal keep alive analyzer check. Warm up the Python engine."
+            _ = [word.upper() for word in test_text.split()]
+            
+            # Executăm un calcul matematic rapid pentru a consuma câteva milisecunde de procesor
+            _ = sum(i * i for i in range(10000))
+            
+            print("🚀 [KEEP-ALIVE] Backend analysis engine warmed up successfully.")
+        except Exception as e:
+            print(f"❌ [KEEP-ALIVE] Error: {e}")
+        
+        # Repetă procesul la fiecare 5 minute (300 de secunde)
+        time.sleep(300)
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Pornim thread-ul de keep-alive în fundal, înainte de pornirea serverului Flask
+    t = threading.Thread(target=keep_backend_alive, daemon=True)
+    t.start()
+    
+    # Linia ta originală de pornire (ajustează portul/host-ul dacă ai alte setări)
+    app.run(host='0.0.0.0', port=5000)
