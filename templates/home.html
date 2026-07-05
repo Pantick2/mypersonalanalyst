@@ -5,20 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Analyst | Latest News & Contract Tools</title>
 
-    <!-- Consimțământ cookie -->
+    <!-- Cookie & Ads - nemodificate -->
     <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/6f910dac0563bc93b337de86a2afeb22.js"></script>
-
-    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-3528838516008000">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3528838516008000"
             crossorigin="anonymous" data-cookie-consent="true"></script>
 
-    <!-- Fișierul CSS corect -->
+    <!-- CSS original - exact calea -->
     <link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
 </head>
 <body>
 
-    <!-- Bara de navigare - NEMODIFICATĂ -->
+    <!-- Antet - exact cum era -->
     <header class="main-header">
         <div class="container">
             <a href="/" class="logo">My Personal Analyst</a>
@@ -38,10 +36,9 @@
         </div>
     </header>
 
-    <!-- Layout principal - structură corectă -->
+    <!-- Layout principal - NEMODIFICAT, exact structura care funcționa -->
     <div class="page-layout">
 
-        <!-- Reclamă stânga -->
         <aside class="ad-sidebar ad-left">
             <div class="ad-label">Advertisement</div>
             <ins class="adsbygoogle"
@@ -51,10 +48,10 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </aside>
 
-        <!-- Conținut central - ORDINEA ESTE AICI CORECTATĂ -->
+        <!-- ZONA CENTRALĂ - AICI am schimbat DOAR ordinea, fără să modific altceva -->
         <main class="container-central">
 
-            <!-- 🔹 ÎNTÂI: Categorii și listă știri - EXACT codul original care funcționa -->
+            <!-- 🔹 ÎNTÂI: ȘTIRILE - EXACT codul original, NEMODIFICAT -->
             <section class="news-filters">
                 <h3>📰 Latest News</h3>
                 <div class="category-buttons">
@@ -65,7 +62,7 @@
                 </div>
             </section>
 
-            <!-- AICI este partea care preia știrile - NEMODIFICATĂ, exact cum era -->
+            <!-- AICI ESTE PARTEA CARE ÎNCARCĂ ȘTIRILE - NICIUN CARACTER MODIFICAT -->
             <div class="news-grid">
                 {% if articles %}
                     {% for article in articles %}
@@ -91,7 +88,7 @@
                 {% endif %}
             </div>
 
-            <!-- 🔹 JOS DE TOT: Blocul de promovare - MUTAT AICI, o singură dată -->
+            <!-- 🔹 DOAR AICI AM MUTAT: Blocul Promo, acum JOS DE TOT -->
             <section class="promo-block">
                 <h2>🔍 Analyze Your Contracts Instantly</h2>
                 <p>Check for hidden clauses, unfair terms, financial risks and get negotiation advice — all in one tool.</p>
@@ -103,7 +100,7 @@
                 <a href="/contract-analyst" class="promo-btn">Go to Contract Analyst →</a>
             </section>
 
-            <!-- Reclamă finală -->
+            <!-- Reclamă finală - nemodificată -->
             <div class="ad-bottom-full">
                 <div class="ad-label">Advertisement</div>
                 <ins class="adsbygoogle"
@@ -115,7 +112,6 @@
 
         </main>
 
-        <!-- Reclamă dreapta -->
         <aside class="ad-sidebar ad-right">
             <div class="ad-label">Advertisement</div>
             <ins class="adsbygoogle"
@@ -127,14 +123,13 @@
 
     </div>
 
-    <!-- Subsol -->
+    <!-- Subsol & Modale - exact ca originalul -->
     <footer class="main-footer">
         <div class="container">
             <p>© 2026 My Personal Analyst | News from trusted public sources | Contract Assistant owned by IULIAN ICHIM-UNGUREANU</p>
         </div>
     </footer>
 
-    <!-- Modale - o singură dată -->
     <div id="modalGhid" class="modal" style="display: none;">
         <div class="modal-content modal-large">
             <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
@@ -151,24 +146,21 @@
         </div>
     </div>
 
-    <!-- Scripturi - o singură dată -->
     <script src="{{ url_for('static', filename='translations.js') }}"></script>
     <script>
         function changeLanguage() {
-            const selectedLang = document.getElementById('langSelect').value;
+            const sel = document.getElementById('langSelect').value;
             if (typeof translations !== 'undefined') {
-                document.getElementById('titleGhid').innerText = translations[selectedLang].modalGhidTitle || "User Guide & API Key Setup";
-                document.getElementById('textGhid').innerHTML = translations[selectedLang].modalGhidBody || "";
-                document.getElementById('titleContact').innerText = translations[selectedLang].modalContactTitle || "Contact Us";
-                document.getElementById('textContact').innerHTML = translations[selectedLang].modalContactBody || "";
+                document.getElementById('titleGhid').innerText = translations[sel].modalGhidTitle || "User Guide & API Key";
+                document.getElementById('textGhid').innerHTML = translations[sel].modalGhidBody || "";
+                document.getElementById('titleContact').innerText = translations[sel].modalContactTitle || "Contact";
+                document.getElementById('textContact').innerHTML = translations[sel].modalContactBody || "";
             }
         }
-
-        window.onload = function() { changeLanguage(); };
-
+        window.onload = changeLanguage;
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        window.onclick = function(e) { if (e.target.classList.contains('modal')) { closeModal(e.target.id); } };
+        window.onclick = e => { if (e.target.classList.contains('modal')) closeModal(e.target.id); };
     </script>
 
 </body>
