@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Analyst | Latest News & Contract Tools</title>
 
-    <!-- 🟢 BANNER CONSIMȚĂMÂNT COOKIE -->
+    <!-- Consimțământ cookie -->
     <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/6f910dac0563bc93b337de86a2afeb22.js"></script>
 
-    <!-- 🟢 GOOGLE ADSENSE -->
+    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-3528838516008000">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3528838516008000"
             crossorigin="anonymous"
@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
 </head>
 <body>
+
     <!-- Bara de navigare -->
     <header class="main-header">
         <div class="container">
@@ -25,22 +26,22 @@
                 <a href="/" class="active">📰 News</a>
                 <a href="/contract-analyst">📄 Contract Analyst</a>
                 <a href="javascript:void(0)" onclick="openModal('modalGhid')">📖 User Guide & API Key</a>
-                <a href="/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
-                <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                <a href="/terms" target="_blank">Terms & Conditions</a>
+                <a href="/privacy" target="_blank">Privacy Policy</a>
                 <a href="javascript:void(0)" onclick="openModal('modalContact')">Contact</a>
-                <a href="https://linktr.ee/Liak_Studio" target="_blank" rel="noopener noreferrer" class="btn-donate-linktree">☕ Donate</a>
-                <select id="langSelect" class="lang-dropdown" onchange="changeLanguage()" title="Select Language">
-                    <option value="en">🌐 English</option>
-                    <option value="ro">🌐 Română</option>
+                <a href="https://linktr.ee/Liak_Studio" target="_blank" class="btn-donate-linktree">☕ Donate</a>
+                <select id="langSelect" class="lang-dropdown" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="ro">Română</option>
                 </select>
             </nav>
         </div>
     </header>
 
-    <!-- LAYOUT PRINCIPAL -->
+    <!-- Layout principal -->
     <div class="page-layout">
 
-        <!-- 📊 RECLAMĂ STÂNGA -->
+        <!-- Reclamă stânga -->
         <aside class="ad-sidebar ad-left">
             <div class="ad-label">Advertisement</div>
             <ins class="adsbygoogle"
@@ -50,10 +51,10 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </aside>
 
-        <!-- CONȚINUT CENTRAL -->
+        <!-- Conținut central -->
         <main class="container-central">
 
-            <!-- 🔹 CATEGORII ȘTIRI -->
+            <!-- 🔹 ÎNTÂI: Categorii și știri (EXACT structura originală care funcționa) -->
             <section class="news-filters">
                 <h3>📰 Latest News</h3>
                 <div class="category-buttons">
@@ -64,13 +65,13 @@
                 </div>
             </section>
 
-            <!-- 🔹 LISTA ȘTIRI - COD ORIGINAL ȘI FUNCȚIONAL -->
+            <!-- AICI este partea care încarcă știrile — NEMODIFICATĂ -->
             <div class="news-grid">
                 {% if articles %}
                     {% for article in articles %}
                     <div class="news-card">
                         {% if article.urlToImage %}
-                            <img src="{{ article.urlToImage }}" alt="{{ article.title }}" loading="lazy">
+                            <img src="{{ article.urlToImage }}" alt="News image" loading="lazy">
                         {% else %}
                             <div class="no-img">📰</div>
                         {% endif %}
@@ -90,7 +91,7 @@
                 {% endif %}
             </div>
 
-            <!-- 🔹 BLOC PROMOVARE - MUTAT JOS DE TOT -->
+            <!-- 🔹 JOS DE TOT: Blocul de promovare -->
             <section class="promo-block">
                 <h2>🔍 Analyze Your Contracts Instantly</h2>
                 <p>Check for hidden clauses, unfair terms, financial risks and get negotiation advice — all in one tool.</p>
@@ -102,7 +103,7 @@
                 <a href="/contract-analyst" class="promo-btn">Go to Contract Analyst →</a>
             </section>
 
-            <!-- 📊 RECLAMĂ LATĂ LA FINAL -->
+            <!-- Reclamă finală -->
             <div class="ad-bottom-full">
                 <div class="ad-label">Advertisement</div>
                 <ins class="adsbygoogle"
@@ -114,7 +115,7 @@
 
         </main>
 
-        <!-- 📊 RECLAMĂ DREAPTA -->
+        <!-- Reclamă dreapta -->
         <aside class="ad-sidebar ad-right">
             <div class="ad-label">Advertisement</div>
             <ins class="adsbygoogle"
@@ -132,7 +133,7 @@
         </div>
     </footer>
 
-    <!-- MODALE -->
+    <!-- Modale -->
     <div id="modalGhid" class="modal" style="display: none;">
         <div class="modal-content modal-large">
             <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
@@ -149,24 +150,25 @@
         </div>
     </div>
 
-    <!-- SCRIPTURI -->
+    <!-- Scripturi -->
     <script src="{{ url_for('static', filename='translations.js') }}"></script>
     <script>
         function changeLanguage() {
-            const selectedLang = document.getElementById('langSelect').value;
+            const sel = document.getElementById('langSelect').value;
             if (typeof translations !== 'undefined') {
-                document.getElementById('titleGhid').innerText = translations[selectedLang].modalGhidTitle || "User Guide & API Key Setup";
-                document.getElementById('textGhid').innerHTML = translations[selectedLang].modalGhidBody || "";
-                document.getElementById('titleContact').innerText = translations[selectedLang].modalContactTitle || "Contact Us";
-                document.getElementById('textContact').innerHTML = translations[selectedLang].modalContactBody || "";
+                document.getElementById('titleGhid').innerText = translations[sel].modalGhidTitle || "User Guide & API Key";
+                document.getElementById('textGhid').innerHTML = translations[sel].modalGhidBody || "";
+                document.getElementById('titleContact').innerText = translations[sel].modalContactTitle || "Contact";
+                document.getElementById('textContact').innerHTML = translations[sel].modalContactBody || "";
             }
         }
 
-        window.onload = function() { changeLanguage(); };
+        window.onload = changeLanguage;
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        window.onclick = function(e) { if (e.target.classList.contains('modal')) { e.target.style.display = 'none'; } }
+        window.onclick = e => { if (e.target.classList.contains('modal')) closeModal(e.target.id); };
     </script>
+
 </body>
 </html>
