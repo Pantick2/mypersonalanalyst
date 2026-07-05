@@ -1,182 +1,422 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ==============================================
+   GENERAL & RESET
+============================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
 body {
-    background: #0f141c;
+    background-color: #0f141e;
     color: #e2e8f0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
 
-/* Header */
-.main-header {
-    background: #161b26;
-    border-bottom: 1px solid #272e3b;
-    padding: 1rem 0;
-    margin-bottom: 2rem;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
+
+/* ==============================================
+   HEADER & NAVIGATION
+============================================== */
+.main-header {
+    background-color: #161b26;
+    border-bottom: 1px solid #222935;
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
 .logo {
-    color: #ffffff;
     font-size: 1.3rem;
     font-weight: bold;
+    color: #60a5fa;
     text-decoration: none;
-    margin-right: 2rem;
 }
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
 .main-nav a {
     color: #cbd5e1;
     text-decoration: none;
-    margin: 0 0.8rem;
-    transition: color 0.2s;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
 }
-.main-nav a:hover, .main-nav a.active { color: #3b82f6; }
 
-/* Promo section */
-.promo-block {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+.main-nav a:hover,
+.main-nav a.active {
+    color: #60a5fa;
+}
+
+.lang-dropdown {
+    background: #1e2533;
+    color: #e2e8f0;
+    border: 1px solid #333b4a;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+}
+
+.btn-donate-linktree {
+    background: #2563eb;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    color: white !important;
+    font-weight: 500;
+}
+
+.btn-donate-linktree:hover {
+    background: #1d4ed8;
+}
+
+/* ==============================================
+   LAYOUT CU 3 COLOANE
+============================================== */
+.page-layout {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem 2rem;
+    align-items: flex-start;
+}
+
+/* Reclame laterale */
+.ad-sidebar {
+    width: 160px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    background: #161b26;
     border: 1px solid #272e3b;
-    border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 3rem;
+    border-radius: 8px;
+    min-height: 600px;
+}
+
+.ad-label {
+    font-size: 0.7rem;
+    color: #8892a6;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Zonă centrală cu conținut */
+.container-central {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Reclamă lată la finalul paginii */
+.ad-bottom-full {
+    margin: 3rem 0;
+    padding: 1.2rem;
+    background: #161b26;
+    border: 1px solid #272e3b;
+    border-radius: 8px;
     text-align: center;
 }
-.promo-block h2 { font-size: 1.8rem; margin-bottom: 1rem; color: #ffffff; }
-.promo-block p { font-size: 1.1rem; color: #a8b2c2; margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+/* ==============================================
+   BLOC PROMOVARE
+============================================== */
+.promo-block {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.promo-block h2 {
+    color: #60a5fa;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.promo-block p {
+    color: #cbd5e1;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
 .promo-features {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
     justify-content: center;
-    margin-bottom: 2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.8rem;
+    color: #94a3b8;
+}
+
+.promo-btn {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    text-decoration: none;
     font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.promo-btn:hover {
+    background: #1d4ed8;
+}
+
+/* ==============================================
+   CATEGORII ȘTIRI
+============================================== */
+.news-filters {
+    margin-bottom: 2rem;
+}
+
+.news-filters h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
     color: #e2e8f0;
 }
-.promo-btn {
-    background: #3b82f6;
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    transition: background 0.2s;
-}
-.promo-btn:hover { background: #2563eb; }
 
-/* News filters */
-.news-filters { margin-bottom: 2rem; }
-.news-filters h3 { font-size: 1.5rem; margin-bottom: 1rem; }
 .category-buttons {
     display: flex;
     gap: 0.8rem;
     flex-wrap: wrap;
 }
+
 .cat-btn {
-    padding: 0.5rem 1.2rem;
-    background: #1e2532;
-    border: 1px solid #272e3b;
-    border-radius: 20px;
+    background: #1e293b;
+    border: 1px solid #334155;
     color: #cbd5e1;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
     text-decoration: none;
-    transition: all 0.2s;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
 }
-.cat-btn:hover, .cat-btn.active {
-    background: #3b82f6;
-    border-color: #3b82f6;
+
+.cat-btn:hover,
+.cat-btn.active {
+    background: #2563eb;
+    border-color: #2563eb;
     color: white;
 }
 
-/* News grid */
+/* ==============================================
+   GRID ȘTIRI
+============================================== */
 .news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
+
 .news-card {
     background: #161b26;
     border: 1px solid #272e3b;
     border-radius: 10px;
     overflow: hidden;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .news-card:hover {
     transform: translateY(-3px);
-    border-color: #3b82f660;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
+
 .news-card img {
     width: 100%;
     height: 180px;
     object-fit: cover;
-    background: #1e2532;
+    background: #1e2533;
 }
+
 .no-img {
     width: 100%;
     height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    background: #1e2533;
     color: #64748b;
-    background: #1e2532;
 }
-.news-content { padding: 1.2rem; }
+
+.news-content {
+    padding: 1.2rem;
+}
+
 .news-content h4 {
-    font-size: 1.1rem;
-    margin-bottom: 0.7rem;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    color: #e2e8f0;
     line-height: 1.4;
 }
+
 .news-content p {
-    font-size: 0.95rem;
-    color: #a8b2c2;
+    font-size: 0.9rem;
+    color: #94a3b8;
     margin-bottom: 1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.5;
 }
+
 .news-meta {
     display: flex;
     justify-content: space-between;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #64748b;
     margin-bottom: 1rem;
 }
+
 .read-more {
-    color: #3b82f6;
+    color: #60a5fa;
     text-decoration: none;
+    font-size: 0.85rem;
     font-weight: 500;
 }
-.read-more:hover { text-decoration: underline; }
+
+.read-more:hover {
+    text-decoration: underline;
+}
 
 .empty {
-    text-align: center;
-    padding: 4rem;
-    color: #94a3b8;
     grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: #94a3b8;
+    font-size: 1.1rem;
 }
 
-/* Footer */
-.main-footer {
-    background: #161b26;
-    border-top: 1px solid #272e3b;
-    padding: 1.5rem 0;
-    text-align: center;
-    color: #94a3b8;
-    font-size: 0.9rem;
+/* ==============================================
+   MODALE / POPUP
+============================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 1rem;
 }
-/* Stiluri pentru anunțuri */
-.ad-block {
-    margin: 2rem 0;
-    padding: 0.8rem;
-    text-align: center;
+
+.modal-content {
     background: #161b26;
     border: 1px solid #272e3b;
-    border-radius: 8px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
 }
-.ad-label {
-    font-size: 0.75rem;
+
+.modal-large {
+    max-width: 800px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-modal:hover {
+    color: #ef4444;
+}
+
+.modal-title-blue {
+    color: #60a5fa;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.modal-title-default {
+    color: #e2e8f0;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.modal-text-layout {
+    color: #cbd5e1;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* ==============================================
+   FOOTER
+============================================== */
+.main-footer {
+    background: #161b26;
+    border-top: 1px solid #222935;
+    padding: 1.5rem 0;
+    text-align: center;
     color: #8892a6;
-    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
 }
-.ad-top { margin-top: 1rem; }
-.ad-middle { margin: 2.5rem 0; }
-.ad-bottom { margin: 3rem 0 1rem; }
+
+/* ==============================================
+   RESPONSIVE - ADAPTARE ECRANE MICI
+============================================== */
+@media (max-width: 1024px) {
+    .ad-sidebar {
+        display: none;
+    }
+
+    .page-layout {
+        padding: 0 1rem 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .promo-block {
+        padding: 1.5rem 1rem;
+    }
+
+    .promo-features {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-buttons {
+        justify-content: center;
+    }
+}
