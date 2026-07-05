@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Analyst | Latest News & Contract Tools</title>
 
-    <!-- 🟢 BANNER CONSIMȚĂMÂNT COOKIE - SE ÎNCARCĂ ÎNTÂI -->
+    <!-- 🟢 BANNER CONSIMȚĂMÂNT COOKIE -->
     <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/6f910dac0563bc93b337de86a2afeb22.js"></script>
 
-    <!-- 🟢 GOOGLE ADSENSE CU CONSIMȚĂMÂNT ACTIVAT -->
+    <!-- 🟢 GOOGLE ADSENSE -->
     <meta name="google-adsense-account" content="ca-pub-3528838516008000">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3528838516008000"
             crossorigin="anonymous"
@@ -24,10 +24,10 @@
             <nav class="main-nav">
                 <a href="/" class="active">📰 News</a>
                 <a href="/contract-analyst">📄 Contract Analyst</a>
-                <a id="linkGhid" onclick="openModal('modalGhid')">📖 User Guide & API Key</a>
+                <a href="javascript:void(0)" onclick="openModal('modalGhid')">📖 User Guide & API Key</a>
                 <a href="/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
                 <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                <a id="linkContact" onclick="openModal('modalContact')">Contact</a>
+                <a href="javascript:void(0)" onclick="openModal('modalContact')">Contact</a>
                 <a href="https://linktr.ee/Liak_Studio" target="_blank" rel="noopener noreferrer" class="btn-donate-linktree">☕ Donate</a>
                 <select id="langSelect" class="lang-dropdown" onchange="changeLanguage()" title="Select Language">
                     <option value="en">🌐 English</option>
@@ -132,11 +132,11 @@
         </div>
     </footer>
 
-    <!-- Modale -->
+    <!-- MODALE - Ghid și Contact -->
     <div id="modalGhid" class="modal">
         <div class="modal-content modal-large">
             <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
-            <h2 id="titleGhid" class="modal-title-blue">User Guide</h2>
+            <h2 id="titleGhid" class="modal-title-blue">User Guide & API Key Setup</h2>
             <div id="textGhid" class="modal-text-layout"></div>
         </div>
     </div>
@@ -149,21 +149,36 @@
         </div>
     </div>
 
+    <!-- ÎNCĂRCĂM TRADUCERILE ȘI FUNCȚIILE -->
     <script src="{{ url_for('static', filename='translations.js') }}"></script>
     <script>
         function changeLanguage() {
             const selectedLang = document.getElementById('langSelect').value;
-            document.getElementById('titleGhid').innerText = translations[selectedLang].modalGhidTitle;
-            document.getElementById('textGhid').innerHTML = translations[selectedLang].modalGhidBody;
-            document.getElementById('titleContact').innerText = translations[selectedLang].modalContactTitle;
-            document.getElementById('textContact').innerHTML = translations[selectedLang].modalContactBody;
+            if (typeof translations !== 'undefined') {
+                document.getElementById('titleGhid').innerText = translations[selectedLang].modalGhidTitle || "User Guide & API Key Setup";
+                document.getElementById('textGhid').innerHTML = translations[selectedLang].modalGhidBody || "";
+                document.getElementById('titleContact').innerText = translations[selectedLang].modalContactTitle || "Contact Us";
+                document.getElementById('textContact').innerHTML = translations[selectedLang].modalContactBody || "";
+            }
         }
 
-        window.onload = function() { changeLanguage(); };
+        window.onload = function() {
+            changeLanguage();
+        };
 
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        window.onclick = function(e) { if (e.target.classList.contains('modal')) { e.target.style.display = 'none'; } }
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
