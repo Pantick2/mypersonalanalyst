@@ -2,56 +2,62 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# Încarcă cheia API din variabilele de mediu
+# Încarcă cheia API din mediu (.env local sau Render env vars)
 load_dotenv()
-NEWS_API_KEY = os.getenv("NEWS_API_KEY", "")
+NEWS_API_KEY = os.getenv("NEWS_API_KEY", "").strip()
 
 def get_latest_news(category="general", country="gb", limit=15):
     """
-    Preia știri din NewsAPI:
-    - Pentru categoria Legal: căutare globală după cuvinte cheie
-    - Pentru restul categoriilor: întâi știri pe țară, dacă nu sunt, preia știri globale
+    Preia știri de la NewsAPI.org:
+    - Legal: căutare globală după cuvinte cheie
+    - Alte categorii: întâi pe țară, dacă gol → global
     """
     if not NEWS_API_KEY:
-        print("⚠️ Eroare: NEWS_API_KEY nu este setată")
+        print("❌ NEWS_API_KEY lipsește sau este goală")
         return []
 
-    headers = {"User-Agent": "MyPersonalAnalyst/1.0"}
+    headers = {
+        "User-Agent": "MyPersonalAnalyst/1.0 (+https://mypersonalanalyst.com)",
+        "Accept": "application/json"
+    }
 
-    # 🔹 Categoria Legal: căutare globală, nu restricționată pe țară
+    # 🔹 Categoria Legal → căutare globală (nu țară)
     if category.lower() == "legal":
         url = (
-            f"https://newsapi.org/v2/everything?"
-            f"q=law+legal+contract+regulation+business+dispute&"
-            f"language=en&sortBy=publishedAt&pageSize={limit}&apiKey={NEWS_API_KEY}"
-        )
+            "https://newsapi.org/v2/everything?"
+            "q=law+legal+contract+regulation+court+business+dispute&"
+            "language=en&sortBy=publishedAt&pageSize={}&apiKey={}"
+        ).format(limit, NEWS_API_KEY)
+
     else:
-        # 🔹 Întâi încercăm știri pe țară
+        # 🔹 Alte categorii: întâi top-headlines pe țară
         url = (
-            f"https://newsapi.org/v2/top-headlines?"
-            f"country={country}&category={category}&pageSize={limit}&apiKey={NEWS_API_KEY}"
-        )
+            "https://newsapi.org/v2/top-headlines?"
+            "country={}&category={}&pageSize={}&apiKey={}"
+        ).format(country, category, limit, NEWS_API_KEY)
 
     try:
-        response = requests.get(url, headers=headers, timeout=12)
-        data = response.json()
+        resp = requests.get(url, headers=headers, timeout=15)
+        resp.raise_for_status()
+        data = resp.json()
 
-        # Dacă nu avem rezultate pe țară, luăm știri globale pentru categoria respectivă
+        # Dacă nu avem rezultate pe țară → trecem la global
         if data.get("status") == "ok" and len(data.get("articles", [])) == 0 and category != "legal":
-            print(f"ℹ️ Nu sunt știri pe țară pentru {category}, preluăm din surse globale...")
+            print(f"ℹ️ Fără știri pe {country} pentru {category} → încerc global")
             url = (
-                f"https://newsapi.org/v2/top-headlines?"
-                f"category={category}&language=en&pageSize={limit}&apiKey={NEWS_API_KEY}"
-            )
-            response = requests.get(url, headers=headers, timeout=12)
-            data = response.json()
+                "https://newsapi.org/v2/top-headlines?"
+                "category={}&language=en&pageSize={}&apiKey={}"
+            ).format(category, limit, NEWS_API_KEY)
+            resp = requests.get(url, headers=headers, timeout=15)
+            resp.raise_for_status()
+            data = resp.json()
 
         if data.get("status") == "ok":
             return data.get("articles", [])
         else:
-            print(f"⚠️ Răspuns NewsAPI: {data.get('message', 'Eroare necunoscută')}")
+            print(f"⚠️ NewsAPI răspuns: {data.get('message', 'necunoscut')}")
             return []
 
     except Exception as e:
-        print(f"❌ Eroare conexiune NewsAPI: {str(e)}")
+        print(f"❌ Eroare NewsAPI: {str(e)}")
         return []
