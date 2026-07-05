@@ -163,3 +163,20 @@ body {
     color: #94a3b8;
     font-size: 0.9rem;
 }
+/* Stiluri pentru anunțuri */
+.ad-block {
+    margin: 2rem 0;
+    padding: 0.8rem;
+    text-align: center;
+    background: #161b26;
+    border: 1px solid #272e3b;
+    border-radius: 8px;
+}
+.ad-label {
+    font-size: 0.75rem;
+    color: #8892a6;
+    margin-bottom: 0.6rem;
+}
+.ad-top { margin-top: 1rem; }
+.ad-middle { margin: 2.5rem 0; }
+.ad-bottom { margin: 3rem 0 1rem; }
