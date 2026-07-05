@@ -24,15 +24,33 @@
             <nav class="main-nav">
                 <a href="/" class="active">📰 News</a>
                 <a href="/contract-analyst">📄 Contract Analyst</a>
-                <a href="/guide">User Guide & API Key</a>
-                <a href="/terms">Terms & Conditions</a>
-                <a href="/privacy">Privacy Policy</a>
-                <a href="/contact">Contact</a>
+                <a id="linkGhid" onclick="openModal('modalGhid')">📖 User Guide & API Key</a>
+                <a href="/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
+                <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                <a id="linkContact" onclick="openModal('modalContact')">Contact</a>
+                <a href="https://linktr.ee/Liak_Studio" target="_blank" rel="noopener noreferrer" class="btn-donate-linktree">☕ Donate</a>
+                <select id="langSelect" class="lang-dropdown" onchange="changeLanguage()" title="Select Language">
+                    <option value="en">🌐 English</option>
+                    <option value="ro">🌐 Română</option>
+                </select>
             </nav>
         </div>
     </header>
 
     <main class="container">
+
+        <!-- 📊 ANUNȚ 1 - SUB MENIU -->
+        <div class="ad-block ad-top">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3528838516008000"
+                 data-ad-slot="7281282692"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
         <!-- 🔹 Secțiune de promovare Analist Contracte -->
         <section class="promo-block">
             <h2>🔍 Analyze Your Contracts Instantly</h2>
@@ -44,6 +62,18 @@
             </div>
             <a href="/contract-analyst" class="promo-btn">Go to Contract Analyst →</a>
         </section>
+
+        <!-- 📊 ANUNȚ 2 - ÎNTRE PROMOVARE ȘI ȘTIRI -->
+        <div class="ad-block ad-middle">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3528838516008000"
+                 data-ad-slot="7720266395"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
 
         <!-- 🔹 Categorii de știri -->
         <section class="news-filters">
@@ -81,6 +111,19 @@
                 <p class="empty">⚠️ No news available right now. Please refresh later.</p>
             {% endif %}
         </div>
+
+        <!-- 📊 ANUNȚ 3 - LA SFÂRȘITUL PAGINII -->
+        <div class="ad-block ad-bottom">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3528838516008000"
+                 data-ad-slot="9945194810"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
     </main>
 
     <footer class="main-footer">
@@ -88,5 +131,39 @@
             <p>© 2026 My Personal Analyst | News from trusted public sources | Contract Assistant owned by IULIAN ICHIM-UNGUREANU</p>
         </div>
     </footer>
+
+    <!-- Modale -->
+    <div id="modalGhid" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
+            <h2 id="titleGhid" class="modal-title-blue">User Guide</h2>
+            <div id="textGhid" class="modal-text-layout"></div>
+        </div>
+    </div>
+
+    <div id="modalContact" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modalContact')">&times;</span>
+            <h2 id="titleContact" class="modal-title-default">Contact Us</h2>
+            <div id="textContact" class="modal-text-layout"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='translations.js') }}"></script>
+    <script>
+        function changeLanguage() {
+            const selectedLang = document.getElementById('langSelect').value;
+            document.getElementById('titleGhid').innerText = translations[selectedLang].modalGhidTitle;
+            document.getElementById('textGhid').innerHTML = translations[selectedLang].modalGhidBody;
+            document.getElementById('titleContact').innerText = translations[selectedLang].modalContactTitle;
+            document.getElementById('textContact').innerHTML = translations[selectedLang].modalContactBody;
+        }
+
+        window.onload = function() { changeLanguage(); };
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        window.onclick = function(e) { if (e.target.classList.contains('modal')) { e.target.style.display = 'none'; } }
+    </script>
 </body>
 </html>
