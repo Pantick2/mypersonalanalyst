@@ -7,7 +7,7 @@ NEWS_API_KEY = os.getenv("NEWS_API_KEY", "").strip()
 
 def get_latest_news(category="general", country="gb", limit=10):
     if not NEWS_API_KEY:
-        print("❌ NEWS_API_KEY lipsește")
+        print("❌ NEWS_API_KEY nu este setată")
         return []
 
     headers = {
@@ -15,11 +15,10 @@ def get_latest_news(category="general", country="gb", limit=10):
         "Accept": "application/json"
     }
 
-    # Evităm cererile duplicate: folosim un singur endpoint pe categorie
     if category.lower() == "legal":
         url = (
             "https://newsapi.org/v2/everything?"
-            "q=law+legal+contract+regulation&"
+            "q=law+legal+contract+regulation+court&"
             "language=en&sortBy=publishedAt&pageSize={}&apiKey={}"
         ).format(limit, NEWS_API_KEY)
     else:
@@ -30,14 +29,12 @@ def get_latest_news(category="general", country="gb", limit=10):
 
     try:
         resp = requests.get(url, headers=headers, timeout=10)
-        # Tratăm explicit eroarea 429
         if resp.status_code == 429:
-            print("⚠️ NewsAPI: Limita de cereri atinsă (429). Revino mai târziu.")
+            print("⚠️ Limita zilnică NewsAPI atinsă, se resetează automat")
             return []
         resp.raise_for_status()
         data = resp.json()
         return data.get("articles", []) if data.get("status") == "ok" else []
-
     except Exception as e:
-        print(f"❌ Eroare NewsAPI: {str(e)}")
+        print(f"❌ Eroare preluare știri: {str(e)}")
         return []
