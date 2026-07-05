@@ -53,6 +53,140 @@
         <!-- CONȚINUT CENTRAL -->
         <main class="container-central">
 
+            <!-- 🔹 CATEGORII ȘI LISTĂ ȘTIRI - ACUM PRIMELE -->
+            <section class="news-filters">
+                <h3>📰 Latest News</h3>
+                <div class="category-buttons">
+                    <a href="/?category=general" class="cat-btn {{ 'active' if selected == 'general' }}">General</a>
+                    <a href="/?category=business" class="cat-btn {{ 'active' if selected == 'business' }}">Business</a>
+                    <a href="/?category=legal" class="cat-btn {{ 'active' if selected == 'legal' }}">Legal</a>
+                    <a href="/?category=technology" class="cat-btn {{ 'active' if selected == 'technology' }}">Technology</a>
+                </div>
+            </section>
+
+            <div class="news-grid">
+                {% if articles %}
+                    {% for article in articles %}
+                    <div class="news-card">
+                        {% if article.urlToImage %}
+                            <img src="{{ article.urlToImage }}" alt="News image" loading="lazy">
+                        {% else %}
+                            <div class="no-img">📰</div>
+                        {% endif %}
+                        <div class="news-content">
+                            <h4>{{ article.title }}</h4>
+                            <p>{{ article.description or "No summary available." }}</p>
+                            <div class="news-meta">
+                                <span>{{ article.source.name }}</span>
+                                <span>{{ article.publishedAt[:10] }}</span>
+                            </div>
+                            <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="read-more">Read full article →</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty">⚠️ No news available right now. Please refresh later.</p>
+                {% endif %}
+            </div>
+
+            <!-- 🔹 BLOC PROMOVARE - MUTAT JOS DE TOT -->
+            <section class="promo-block">
+                <h2>🔍 Analyze Your Contracts Instantly</h2>
+                <p>Check for hidden clauses, unfair terms, financial risks and get negotiation advice — all in one tool.</p>
+                <div class="promo-features">
+                    <div>✅ Simplifies complex legal language</div>
+                    <div>⚠️ Flags unfair or hidden conditions</div>
+                    <div>💬 Gives you ready-to-use negotiation arguments</div>
+                </div>
+                <a href="/contract-analyst" class="promo-btn">Go to Contract Analyst →</a>
+            </section>
+
+            <!-- 📊 RECLAMĂ LATĂ LA FINALUL PAGINII -->
+            <div class="ad-bottom-full">
+                <div class="ad-label">Advertisement</div>
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%; max-width:970px; height:90px; margin:0 auto;"
+                     data-ad-client="ca-pub-3528838516008000"
+                     data-ad-slot="7281282692"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
+        </main>
+
+        <!-- 📊 RECLAMĂ DREAPTA -->
+        <aside class="ad-sidebar ad-right">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block; width:160px; height:600px;"
+                 data-ad-client="ca-pub-3528838516008000"
+                 data-ad-slot="9945194810"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </aside>
+
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>© 2026 My Personal Analyst | News from trusted public sources | Contract Assistant owned by IULIAN ICHIM-UNGUREANU</p>
+        </div>
+    </footer>
+
+    <!-- MODALE - ASCUNSE -->
+    <div id="modalGhid" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
+            <h2 id="titleGhid" class="modal-title-blue">User Guide & API Key Setup</h2>
+            <div id="textGhid" class="modal-text-layout"></div>
+        </div>
+    </div>
+
+    <div id="modalContact" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modalContact')">&times;</span>
+            <h2 id="titleContact" class="modal-title-default">Contact Us</h2>
+            <div id="textContact" class="modal-text-layout"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='translations.js') }}"></script>
+    <script>
+        function changeLanguage() {
+            const selectedLang = document.getElementById('langSelect').value;
+            if (typeof translations !== 'undefined') {
+                document.getElementById('titleGhid').innerText = translations[selectedLang].modalGhidTitle || "User Guide & API Key Setup";
+                document.getElementById('textGhid').innerHTML = translations[selectedLang].modalGhidBody || "";
+                document.getElementById('titleContact').innerText = translations[selectedLang].modalContactTitle || "Contact Us";
+                document.getElementById('textContact').innerHTML = translations[selectedLang].modalContactBody || "";
+            }
+        }
+
+        window.onload = function() { changeLanguage(); };
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        window.onclick = function(e) { if (e.target.classList.contains('modal')) { e.target.style.display = 'none'; } }
+    </script>
+</body>
+</html>
+        </div>
+    </header>
+
+    <!-- LAYOUT PRINCIPAL: Reclamă stânga + conținut centru + reclamă dreapta -->
+    <div class="page-layout">
+
+        <!-- 📊 RECLAMĂ STÂNGA -->
+        <aside class="ad-sidebar ad-left">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block; width:160px; height:600px;"
+                 data-ad-client="ca-pub-3528838516008000"
+                 data-ad-slot="7720266395"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </aside>
+
+        <!-- CONȚINUT CENTRAL -->
+        <main class="container-central">
+
             <!-- 🔹 Secțiune de promovare Analist Contracte -->
             <section class="promo-block">
                 <h2>🔍 Analyze Your Contracts Instantly</h2>
