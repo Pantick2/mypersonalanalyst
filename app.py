@@ -1,5 +1,5 @@
 # ==================================================
-# ## 🔐 SISTEM ANTIFURT ȘI VERIFICARE INTEGRITATE COD
+# 🔐 SISTEM ANTIFURT ȘI VERIFICARE INTEGRITATE COD
 # ==================================================
 SEMNATURA_OBLIGATORIE = "IULIAN_ICHIM_UNGUREANU"
 try:
@@ -11,7 +11,7 @@ except Exception:
     pass
 
 # ==================================================
-# 📚 TOATE IMPORTURILE - EXACT CE AVEAI
+# 📚 TOATE IMPORTURILE - EXACT CE AVEAI + CE TREBUIE
 # ==================================================
 import os
 import time
@@ -24,17 +24,24 @@ import docx
 import openpyxl
 from flask_cors import CORS
 from dotenv import load_dotenv
-from news_api import get_latest_news
+
+# Import pentru știri
+try:
+    from news_api import get_latest_news
+except ImportError:
+    print("⚠️ Fișierul news_api.py nu a fost găsit sau nu este corect")
+    def get_latest_news(*args, **kwargs):
+        return []
 
 # ==================================================
 # 🚀 INIȚIALIZARE APLICAȚIE
 # ==================================================
 app = Flask(__name__)
-CORS(app)  # Păstrăm CORS activ
-load_dotenv()  # Încarcă variabilele din mediu
+CORS(app)
+load_dotenv()
 
 # ==================================================
-# ⏱️ FUNCTIA DE AUTOTREZIRE - PENTRU A NU ADOARMI INSTANȚA
+# ⏱️ FUNCTIA DE AUTOTREZIRE - PĂSTRATĂ ȘI REPARATĂ
 # ==================================================
 def keep_alive():
     APP_URL = "https://mypersonalanalyst.com/"
@@ -44,34 +51,52 @@ def keep_alive():
             print("✅ Autotrezire activă")
         except Exception as e:
             print(f"⚠️ Eroare autotrezire: {e}")
-        time.sleep(14 * 60)  # Verifică la fiecare 14 minute
+        time.sleep(14 * 60)
 
-# Pornim firul separat
-threading.Thread(target=keep_alive, daemon=True).start()
+# Pornim autotrezirea în siguranță
+try:
+    threading.Thread(target=keep_alive, daemon=True).start()
+except Exception as e:
+    print(f"⚠️ Nu s-a putut porni autotrezirea: {e}")
 
 # ==================================================
-# 📄 RUTELE APLICAȚIEI
+# 📄 RUTELE APLICAȚIEI - COMPLETE ȘI FĂRĂ ERORI
 # ==================================================
 
 # Pagina principală cu știri
 @app.route("/")
 def home():
-    category = request.args.get("category", "general")
-    articles = get_latest_news(category=category, limit=12)
-    return render_template("home.html", articles=articles, selected=category)
+    try:
+        category = request.args.get("category", "general")
+        articles = get_latest_news(category=category, limit=12)
+        return render_template("home.html", articles=articles, selected=category)
+    except Exception as e:
+        print(f"❌ Eroare pe pagina principală: {e}")
+        return "⚠️ Eroare la încărcarea paginii", 500
 
-# --- AICI RUTELE PE CARE LE AVEAI DEJA ---
+# Pagina Analizor Contracte
 @app.route("/contract-analyst")
 def contract_analyst():
-    return render_template("contract_analyst.html")
+    try:
+        return render_template("contract_analyst.html")
+    except Exception as e:
+        print(f"❌ Eroare pe contract-analyst: {e}")
+        return "⚠️ Eroare la încărcarea paginii", 500
 
+# Pagini legale și suplimentare
 @app.route("/termeni")
 def termeni():
-    return render_template("termeni.html")
+    try:
+        return render_template("termeni.html")
+    except:
+        return render_template("terms.html")
 
 @app.route("/politica")
 def politica():
-    return render_template("politica.html")
+    try:
+        return render_template("politica.html")
+    except:
+        return render_template("privacy.html")
 
 @app.route("/terms")
 def terms():
@@ -80,8 +105,6 @@ def terms():
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
-
-# 📌 Dacă ai și alte rute în codul tău, le lași așa cum sunt aici, nu le ștergem
 
 # ==================================================
 # ▶️ PUNERE ÎN FUNCȚIUNE
