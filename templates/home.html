@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Analyst | Latest News & Contract Tools</title>
 
-    <!-- Cookie & Ads - nemodificate -->
+    <!-- Cookie Consent -->
     <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/6f910dac0563bc93b337de86a2afeb22.js"></script>
+
+    <!-- AdSense -->
     <meta name="google-adsense-account" content="ca-pub-3528838516008000">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3528838516008000"
             crossorigin="anonymous" data-cookie-consent="true"></script>
 
-    <!-- CSS original - exact calea -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
 </head>
 <body>
 
-    <!-- Antet - exact cum era -->
     <header class="main-header">
         <div class="container">
             <a href="/" class="logo">My Personal Analyst</a>
@@ -36,9 +37,7 @@
         </div>
     </header>
 
-    <!-- Layout principal - NEMODIFICAT, exact structura care funcționa -->
     <div class="page-layout">
-
         <aside class="ad-sidebar ad-left">
             <div class="ad-label">Advertisement</div>
             <ins class="adsbygoogle"
@@ -48,10 +47,9 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </aside>
 
-        <!-- ZONA CENTRALĂ - AICI am schimbat DOAR ordinea, fără să modific altceva -->
         <main class="container-central">
 
-            <!-- 🔹 ÎNTÂI: ȘTIRILE - EXACT codul original, NEMODIFICAT -->
+            <!-- ✅ EXACT structura originală pentru știri, NEMODIFICATĂ -->
             <section class="news-filters">
                 <h3>📰 Latest News</h3>
                 <div class="category-buttons">
@@ -62,7 +60,7 @@
                 </div>
             </section>
 
-            <!-- AICI ESTE PARTEA CARE ÎNCARCĂ ȘTIRILE - NICIUN CARACTER MODIFICAT -->
+            <!-- ✅ Blocul care încarcă știrile - NICIUN CARACTER SCHIMBAT -->
             <div class="news-grid">
                 {% if articles %}
                     {% for article in articles %}
@@ -88,7 +86,7 @@
                 {% endif %}
             </div>
 
-            <!-- 🔹 DOAR AICI AM MUTAT: Blocul Promo, acum JOS DE TOT -->
+            <!-- ✅ DOAR AICI am mutat blocul promo, după știri -->
             <section class="promo-block">
                 <h2>🔍 Analyze Your Contracts Instantly</h2>
                 <p>Check for hidden clauses, unfair terms, financial risks and get negotiation advice — all in one tool.</p>
@@ -100,7 +98,6 @@
                 <a href="/contract-analyst" class="promo-btn">Go to Contract Analyst →</a>
             </section>
 
-            <!-- Reclamă finală - nemodificată -->
             <div class="ad-bottom-full">
                 <div class="ad-label">Advertisement</div>
                 <ins class="adsbygoogle"
@@ -109,7 +106,6 @@
                      data-ad-slot="7281282692"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
-
         </main>
 
         <aside class="ad-sidebar ad-right">
@@ -120,10 +116,168 @@
                  data-ad-slot="9945194810"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </aside>
-
     </div>
 
-    <!-- Subsol & Modale - exact ca originalul -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>© 2026 My Personal Analyst | News from trusted public sources | Contract Assistant owned by IULIAN ICHIM-UNGUREANU</p>
+        </div>
+    </footer>
+
+    <div id="modalGhid" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
+            <h2 id="titleGhid" class="modal-title-blue">User Guide & API Key Setup</h2>
+            <div id="textGhid" class="modal-text-layout"></div>
+        </div>
+    </div>
+
+    <div id="modalContact" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modalContact')">&times;</span>
+            <h2 id="titleContact" class="modal-title-default">Contact Us</h2>
+            <div id="textContact" class="modal-text-layout"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='translations.js') }}"></script>
+    <script>
+        function changeLanguage() {
+            const sel = document.getElementById('langSelect').value;
+            if (typeof translations !== 'undefined') {
+                document.getElementById('titleGhid').innerText = translations[sel].modalGhidTitle || "User Guide & API Key";
+                document.getElementById('textGhid').innerHTML = translations[sel].modalGhidBody || "";
+                document.getElementById('titleContact').innerText = translations[sel].modalContactTitle || "Contact";
+                document.getElementById('textContact').innerHTML = translations[sel].modalContactBody || "";
+            }
+        }
+        window.onload = changeLanguage;
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        window.onclick = e => { if (e.target.classList.contains('modal')) closeModal(e.target.id); };
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Analyst | Latest News & Contract Tools</title>
+
+    <!-- Cookie Consent -->
+    <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/6f910dac0563bc93b337de86a2afeb22.js"></script>
+
+    <!-- AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-3528838516008000">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3528838516008000"
+            crossorigin="anonymous" data-cookie-consent="true"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="/" class="logo">My Personal Analyst</a>
+            <nav class="main-nav">
+                <a href="/" class="active">📰 News</a>
+                <a href="/contract-analyst">📄 Contract Analyst</a>
+                <a href="javascript:void(0)" onclick="openModal('modalGhid')">📖 User Guide & API Key</a>
+                <a href="/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
+                <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="openModal('modalContact')">Contact</a>
+                <a href="https://linktr.ee/Liak_Studio" target="_blank" rel="noopener noreferrer" class="btn-donate-linktree">☕ Donate</a>
+                <select id="langSelect" class="lang-dropdown" onchange="changeLanguage()">
+                    <option value="en">🌐 English</option>
+                    <option value="ro">🌐 Română</option>
+                </select>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-layout">
+        <aside class="ad-sidebar ad-left">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block; width:160px; height:600px;"
+                 data-ad-client="ca-pub-3528838516008000"
+                 data-ad-slot="7720266395"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </aside>
+
+        <main class="container-central">
+
+            <!-- ✅ EXACT structura originală pentru știri, NEMODIFICATĂ -->
+            <section class="news-filters">
+                <h3>📰 Latest News</h3>
+                <div class="category-buttons">
+                    <a href="/?category=general" class="cat-btn {{ 'active' if selected == 'general' }}">General</a>
+                    <a href="/?category=business" class="cat-btn {{ 'active' if selected == 'business' }}">Business</a>
+                    <a href="/?category=legal" class="cat-btn {{ 'active' if selected == 'legal' }}">Legal</a>
+                    <a href="/?category=technology" class="cat-btn {{ 'active' if selected == 'technology' }}">Technology</a>
+                </div>
+            </section>
+
+            <!-- ✅ Blocul care încarcă știrile - NICIUN CARACTER SCHIMBAT -->
+            <div class="news-grid">
+                {% if articles %}
+                    {% for article in articles %}
+                    <div class="news-card">
+                        {% if article.urlToImage %}
+                            <img src="{{ article.urlToImage }}" alt="News image" loading="lazy">
+                        {% else %}
+                            <div class="no-img">📰</div>
+                        {% endif %}
+                        <div class="news-content">
+                            <h4>{{ article.title }}</h4>
+                            <p>{{ article.description or "No summary available." }}</p>
+                            <div class="news-meta">
+                                <span>{{ article.source.name }}</span>
+                                <span>{{ article.publishedAt[:10] }}</span>
+                            </div>
+                            <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="read-more">Read full article →</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty">⚠️ No news available right now. Please refresh later.</p>
+                {% endif %}
+            </div>
+
+            <!-- ✅ DOAR AICI am mutat blocul promo, după știri -->
+            <section class="promo-block">
+                <h2>🔍 Analyze Your Contracts Instantly</h2>
+                <p>Check for hidden clauses, unfair terms, financial risks and get negotiation advice — all in one tool.</p>
+                <div class="promo-features">
+                    <div>✅ Simplifies complex legal language</div>
+                    <div>⚠️ Flags unfair or hidden conditions</div>
+                    <div>💬 Gives you ready-to-use negotiation arguments</div>
+                </div>
+                <a href="/contract-analyst" class="promo-btn">Go to Contract Analyst →</a>
+            </section>
+
+            <div class="ad-bottom-full">
+                <div class="ad-label">Advertisement</div>
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%; max-width:970px; height:90px; margin:0 auto;"
+                     data-ad-client="ca-pub-3528838516008000"
+                     data-ad-slot="7281282692"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </main>
+
+        <aside class="ad-sidebar ad-right">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle"
+                 style="display:block; width:160px; height:600px;"
+                 data-ad-client="ca-pub-3528838516008000"
+                 data-ad-slot="9945194810"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </aside>
+    </div>
+
     <footer class="main-footer">
         <div class="container">
             <p>© 2026 My Personal Analyst | News from trusted public sources | Contract Assistant owned by IULIAN ICHIM-UNGUREANU</p>
