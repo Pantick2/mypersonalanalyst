@@ -50,7 +50,7 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </aside>
 
-        <!-- CONȚINUT CENTRAL - ORDINE CORECTĂ: ȘTIRI ÎNTÂI, PROMO JOS -->
+        <!-- CONȚINUT CENTRAL -->
         <main class="container-central">
 
             <!-- 🔹 CATEGORII ȘTIRI -->
@@ -64,13 +64,13 @@
                 </div>
             </section>
 
-            <!-- 🔹 LISTA ȘTIRI - SE ÎNCARCĂ CORECT -->
+            <!-- 🔹 LISTA ȘTIRI - COD ORIGINAL ȘI FUNCȚIONAL -->
             <div class="news-grid">
                 {% if articles %}
                     {% for article in articles %}
                     <div class="news-card">
                         {% if article.urlToImage %}
-                            <img src="{{ article.urlToImage }}" alt="News image" loading="lazy">
+                            <img src="{{ article.urlToImage }}" alt="{{ article.title }}" loading="lazy">
                         {% else %}
                             <div class="no-img">📰</div>
                         {% endif %}
@@ -90,7 +90,7 @@
                 {% endif %}
             </div>
 
-            <!-- 🔹 BLOC PROMOVARE - SINGUR, JOS DE TOT -->
+            <!-- 🔹 BLOC PROMOVARE - MUTAT JOS DE TOT -->
             <section class="promo-block">
                 <h2>🔍 Analyze Your Contracts Instantly</h2>
                 <p>Check for hidden clauses, unfair terms, financial risks and get negotiation advice — all in one tool.</p>
@@ -132,7 +132,7 @@
         </div>
     </footer>
 
-    <!-- MODALE - ASCUNSE, FĂRĂ DUBLURI -->
+    <!-- MODALE -->
     <div id="modalGhid" class="modal" style="display: none;">
         <div class="modal-content modal-large">
             <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
@@ -149,7 +149,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTURI - O SINGURĂ DATĂ -->
+    <!-- SCRIPTURI -->
     <script src="{{ url_for('static', filename='translations.js') }}"></script>
     <script>
         function changeLanguage() {
