@@ -3,41 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Analyst</title>
+    <title>My Personal Analyst | Contract Assistant</title>
     
-    <!-- 🟢 METODA 3: CODUL TĂU DE VERIFICARE META TAG (ADĂUGAT ACUM) -->
+    <!-- 🟢 Verificare AdSense -->
     <meta name="google-adsense-account" content="ca-pub-3528838516008000">
     
-    <!-- Scriptul principal Google AdSense -->
-    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
-    <!-- Bannerul tău Cookie-Script -->
-    <script type="text/javascript" charset="UTF-8" src="https://cookie-script.com"></script>
+    <!-- 🟢 Script principal AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3528838516008000" crossorigin="anonymous"></script>
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+    <!-- 🟢 Banner consimțământ Cookie-Script (conform GDPR) -->
+    <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/6f910dac0563bc93b337de86a2afeb22.js"></script>
+    <!-- Înlocuiește XXXXX cu ID-ul tău unic primit de la CookieScript -->
 
-    
-    <!-- 1. SCRIPTUL PRINCIPAL GOOGLE ADSENSE -->
-    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
-    
-    <!-- 2. BANNERUL TĂU DE CONSINTĂMÂNT (COOKIE-SCRIPT) INTEGRAT NATIV -->
-    <script type="text/javascript" charset="UTF-8" src="https://cookie-script.com"></script>
-    
-    <!-- Legătura nativă Flask către fișierul de design -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<!-- Meniu Superior (Navbar) -->
+<!-- Meniu Superior -->
 <nav class="navbar">
     <div class="logo">My Personal Analyst</div>
     <div class="nav-links">
+        <a href="/">📰 News</a>
+        <a href="/contract-analyst" class="active">📄 Contract Analyst</a>
         <a id="linkGhid" onclick="openModal('modalGhid')">📖 User Guide & API Key</a>
         <a id="linkTerms" href="/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
         <a id="linkPrivacy" href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
         <a id="linkContact" onclick="openModal('modalContact')">Contact</a>
         
-        <!-- Butonul tău permanent de donații Linktree -->
+        <!-- Buton donații -->
         <a href="https://linktr.ee/Liak_Studio" 
            target="_blank" 
            rel="noopener noreferrer"
@@ -45,7 +38,6 @@
            ☕ Donate
         </a>
 
-        <!-- Selectorul de limbi internațional -->
         <select id="langSelect" class="lang-dropdown" onchange="changeLanguage()" title="Select Language">
             <option value="en">🌐 English</option>
             <option value="ro">🌐 Română</option>
@@ -53,23 +45,24 @@
     </div>
 </nav>
 
-<!-- Structura pe 3 coloane: Reclamă Stânga | Aplicație Centru | Reclamă Dreapta -->
+<!-- Layout principal cu reclame laterale -->
 <div class="main-content-layout">
     
-    <!-- 📊 RECLAMĂ STÂNGA (Vertical Skyscraper 160x600) -->
+    <!-- 📊 Reclamă verticală stânga -->
     <aside class="sidebar-ad-left">
         <div class="ad-caption-text">Advertisement</div>
         <ins class="adsbygoogle ad-skyscraper-vertical"
-             data-ad-client="pub-3528838516008000"
+             style="display:block;width:160px;height:600px"
+             data-ad-client="ca-pub-3528838516008000"
              data-ad-slot="7720266395"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </aside>
 
-    <!-- CONTAINERUL CENTRAL CU FORMULARUL DE ANALIZĂ -->
+    <!-- Zonă centrală aplicație -->
     <div class="container-central">
         <div class="card">
             
-            <!-- Căsuța obligatorie de bifare GDPR -->
+            <!-- Bifă termeni obligatorie -->
             <div class="terms-checkbox-container">
                 <label class="checkbox-label" for="chkTermsObligatoriu">
                     <input type="checkbox" id="chkTermsObligatoriu" onchange="toggleFormLock()">
@@ -77,19 +70,17 @@
                 </label>
             </div>
 
-            <!-- Avertisment de blocare pe ecran -->
             <div id="warningBlocat" class="warning-box">
                 <span id="lblBlocatText">🔒 Lock warning...</span>
             </div>
 
-            <!-- Cele 3 carduri de prezentare inițiale -->
             <div id="featuresGrid" class="features-grid">
                 <div class="feature-card-item" id="cardC1"></div>
                 <div class="feature-card-item" id="cardC2"></div>
                 <div class="feature-card-item" id="cardC3"></div>
             </div>
 
-            <!-- Formularul de Lucru (Deblocat prin bifă) -->
+            <!-- Formular de analiză -->
             <div id="mainFormArea" class="form-hidden-area">
                 <div class="input-group">
                     <label class="input-label" for="apiKeyInput">Gemini API Key:</label>
@@ -109,13 +100,12 @@
                 <button class="btn-analyze" id="btnAnalyze" onclick="sendToAnalysis()">Analyze Document</button>
             </div>
             
-            <!-- Animația de încărcare -->
             <div class="loading" id="loadingArea">
                 <div class="spinner"></div>
                 <span id="lblLoading">Analyzing...</span>
             </div>
 
-            <!-- Afișare Raport Final și Descărcare text -->
+            <!-- Rezultat raport + reclamă sub raport -->
             <div id="resultsWrapper" class="results-wrapper">
                 <h2 id="lblRaportTitlu" class="raport-title">🔍 Report Title</h2>
                 <div class="results-box" id="resultsBox"></div>
@@ -124,32 +114,32 @@
                     📥 <span id="lblBtnDown">Download Report (.txt)</span>
                 </button>
 
-                <!-- 📊 RECLAMĂ ORIZONTALĂ SUB RAPORT -->
                 <div class="banner-final-ad-container">
                     <div class="ad-caption-text">Advertisement</div>
-                  <ins class="adsbygoogle ad-banner-horizontal"
-     data-ad-client="pub-3528838516008000"
-     data-ad-slot="7281282692"></ins>
-
+                    <ins class="adsbygoogle ad-banner-horizontal"
+                         style="display:block;width:728px;height:90px"
+                         data-ad-client="ca-pub-3528838516008000"
+                         data-ad-slot="7281282692"></ins>
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
             </div>
 
-            <!-- Subsolul tău de brand -->
             <div id="lblSubsol" class="subsol-brand"></div>
         </div>
     </div>
 
-    <!-- 📊 RECLAMĂ DREAPTA (Vertical Skyscraper 160x600) -->
+    <!-- 📊 Reclamă verticală dreapta -->
     <aside class="sidebar-ad-right">
         <div class="ad-caption-text">Advertisement</div>
         <ins class="adsbygoogle ad-skyscraper-vertical"
-             data-ad-client="pub-3528838516008000"
+             style="display:block;width:160px;height:600px"
+             data-ad-client="ca-pub-3528838516008000"
              data-ad-slot="9945194810"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </aside>
 </div>
-<!-- Pop-up Ghid Gemini detaliat -->
+
+<!-- Modale -->
 <div id="modalGhid" class="modal">
     <div class="modal-content modal-large">
         <span class="close-modal" onclick="closeModal('modalGhid')">&times;</span>
@@ -158,7 +148,6 @@
     </div>
 </div>
 
-<!-- Pop-up Formular Contact -->
 <div id="modalContact" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('modalContact')">&times;</span>
@@ -168,9 +157,9 @@
 </div>
 
 <div class="footer-copyright">
-    &copy; 2026 My Personal Analyst, Developed and owned by IULIAN ICHIM-UNGUREANU (Liak Studio)</div>
+    &copy; 2026 My Personal Analyst, Developed and owned by IULIAN ICHIM-UNGUREANU (Liak Studio)
+</div>
 
-<!-- Apelarea bazei bilingve transmise prin server -->
 <script src="{{ url_for('static', filename='translations.js') }}"></script>
 <script>
     function changeLanguage() {
