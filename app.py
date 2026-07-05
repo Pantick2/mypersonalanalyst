@@ -12,13 +12,22 @@ except Exception:
 
 import os
 import time
-import threading  # 🟢 ACEASTA ESTE LINIA SALVATOARE ADĂUGATĂ!
+import threading
 from flask import Flask, render_template, request, jsonify
 from google import genai
 import pypdf
 import docx
 import openpyxl
 from flask_cors import CORS
+
+# --- 🔽 ADAUGĂM ACESTE LINII NOI PENTRU ȘTIRI ---
+from dotenv import load_dotenv  # Încarcă variabilele secrete
+from news_api import get_latest_news  # Importăm funcția separată pentru știri
+
+# Încarcă fișierul .env (doar local / pe server, nu pe GitHub)
+load_dotenv()
+# --- 🔼 SFÂRȘIT ADAUGARE ---
+
 
 app = Flask(__name__)
 CORS(app)
@@ -65,10 +74,23 @@ DISCLAIMERS = {
     )
 }
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
+# --- 🔽 ÎNLOCUIM RUTA PRINCIPALĂ ȘI ADĂUGĂM RUTELE NOI ---
+# Pagina PRINCIPALĂ = Știri
+@app.route('/')
+def home():
+    selected_category = request.args.get("category", "general")
+    articles = get_latest_news(category=selected_category)
+    return render_template("home.html", articles=articles, selected=selected_category)
+
+# Pagina Analist de Contracte (ruta nouă)
+@app.route('/contract-analyst')
+def contract_analyst():
+    return render_template('index.html')
+# --- 🔼 SFÂRȘIT MODIFICARE RUTE ---
+
+
+# --- RESTUL CODULUI TĂU RĂMÂNE EXACT LA FEL, NESCHIMBAT ---
 @app.route('/terms')
 def terms():
     return render_template('termeni.html')
@@ -154,26 +176,19 @@ def robots():
         status=200,
         mimetype='text/plain'
     )
-    # Forțăm eliminarea blocajului la nivel de header HTTP pentru ambele domenii
     response.headers['X-Robots-Tag'] = 'all'
     return response
 
 @app.route('/ads.txt')
 def ads_txt():
-    # Returnează textul tău oficial cerut de Google AdSense
     continut_ads = "google.com, pub-3528838516008000, DIRECT, f08c47fec0942fa0"
     return continut_ads, 200, {'Content-Type': 'text/plain', 'X-Robots-Tag': 'all'}
     
 @app.route('/api/trezire', methods=['GET'])
 def api_trezire():
-    # 1. Forțăm procesorul să ruleze o buclă de calcul pentru a activa resursele serverului
     simulare_calcul = sum(i * i for i in range(5000))
-    
-    # 2. Simulăm o mini-analiză de text în Python pentru a menține modulele în memorie
     text_fictiv = "This is a dummy contract clause designed to keep the full Python backend engine warm and prevent deep sleep."
     numar_cuvinte = len(text_fictiv.split())
-    
-    # 3. Returnăm răspunsul complet, inclusiv timestamp-ul tău original
     return jsonify({
         'status': 'Backend is awake and fully active', 
         'timestamp': time.time(),
@@ -182,33 +197,19 @@ def api_trezire():
     })
 
 
-import threading
-import time
-
 def keep_backend_alive():
-    """Rulează un proces intern continuu pentru a preveni adormirea backend-ului"""
-    # Așteptăm 20 de secunde ca serverul principal să pornească complet
     time.sleep(20)
     while True:
         try:
-            # Forțăm o simulare de procesare de text în Python
             test_text = "Internal keep alive analyzer check. Warm up the Python engine."
             _ = [word.upper() for word in test_text.split()]
-            
-            # Executăm un calcul matematic rapid pentru a consuma câteva milisecunde de procesor
             _ = sum(i * i for i in range(10000))
-            
             print("🚀 [KEEP-ALIVE] Backend analysis engine warmed up successfully.")
         except Exception as e:
             print(f"❌ [KEEP-ALIVE] Error: {e}")
-        
-        # Repetă procesul la fiecare 5 minute (300 de secunde)
         time.sleep(300)
 
 if __name__ == '__main__':
-    # Pornim thread-ul de keep-alive în fundal, înainte de pornirea serverului Flask
     t = threading.Thread(target=keep_backend_alive, daemon=True)
     t.start()
-    
-    # Linia ta originală de pornire (ajustează portul/host-ul dacă ai alte setări)
     app.run(host='0.0.0.0', port=5000)
