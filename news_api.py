@@ -4,15 +4,14 @@ from datetime import datetime, timedelta
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY", "").strip()
 
-# Cache pentru a păstra știrile și a nu face cereri inutile
 cache = {}
-CACHE_DURATA = 2 * 60 * 60  # Păstrăm știrile 2 ore
+CACHE_DURATA = 2 * 60 * 60  # 2 ore
 
 def get_latest_news(category="general", country="gb", limit=12):
     global cache
     cheie_cache = f"{category}_{country}"
 
-    # ✅ Folosim știrile salvate dacă sunt proaspete
+    # Folosim date salvate dacă sunt proaspete
     if cheie_cache in cache:
         articole, data_salvare = cache[cheie_cache]
         if datetime.now() - data_salvare < timedelta(seconds=CACHE_DURATA):
@@ -29,11 +28,40 @@ def get_latest_news(category="general", country="gb", limit=12):
     }
 
     try:
-        # 🔹 Caz special pentru Legal - rămâne căutare globală
         if category.lower() == "legal":
-            url = "https://newsapi.org/v2/everything?q=law+legal+contract+regulation&language=en&pageSize={}&apiKey={}".format(limit, NEWS_API_KEY)
+            url = "https://newsapi.org/v2/everything?q=law+legal+contract&language=en&pageSize={}&apiKey={}".format(limit, NEWS_API_KEY)
+            resp = requests.get(url, headers=headers, timeout=12)
+        else:
+            # Întâi pe țară
+            url = "https://newsapi.org/v2/top-headlines?country={}&category={}&pageSize={}&apiKey={}".format(country, category, limit, NEWS_API_KEY)
             resp = requests.get(url, headers=headers, timeout=12)
 
+            # Dacă nu avem rezultate pe țară, căutăm global
+            if resp.status_code == 200:
+                data = resp.json()
+                if data.get("status") == "ok" and len(data.get("articles", [])) == 0:
+                    print(f"ℹ️ Fără știri în {country} la {category} → caut global")
+                    url = "https://newsapi.org/v2/top-headlines?category={}&language=en&pageSize={}&apiKey={}".format(category, limit, NEWS_API_KEY)
+                    resp = requests.get(url, headers=headers, timeout=12)
+
+        if resp.status_code != 200:
+            print(f"⚠️ API indisponibil ({resp.status_code}), afișez date salvate")
+            return cache.get(cheie_cache, ([], datetime.now()))[0]
+
+        data = resp.json()
+        articole = data.get("articles", []) if data.get("status") == "ok" else []
+
+        if not articole:
+            print(f"⚠️ Fără știri noi pentru {category}, păstrez cele salvate")
+            return cache.get(cheie_cache, ([], datetime.now()))[0]
+
+        cache[cheie_cache] = (articole, datetime.now())
+        print(f"✅ Știri noi salvate pentru {category}")
+        return articole
+
+    except Exception as e:
+        print(f"❌ Eroare: {str(e)} | Folosesc date salvate")
+        return cache.get(cheie_cache, ([], datetime.now()))[0]
         # 🔹 Pentru celelalte categorii: ÎNTÂI pe țară, DUPĂ global
         else:
             # Pasul 1: Caută în Marea Britanie
