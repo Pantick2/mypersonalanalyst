@@ -63,31 +63,31 @@
                     <a href="/?category=technology" class="cat-btn {{ 'active' if selected == 'technology' }}">Technology</a>
                 </div>
             </section>
-
-            <div class="news-grid">
-                {% if articles %}
-                    {% for article in articles %}
-                    <div class="news-card">
-                        {% if article.urlToImage %}
-                            <img src="{{ article.urlToImage }}" alt="News image" loading="lazy">
-                        {% else %}
-                            <div class="no-img">📰</div>
-                        {% endif %}
-                        <div class="news-content">
-                            <h4>{{ article.title }}</h4>
-                            <p>{{ article.description or "No summary available." }}</p>
-                            <div class="news-meta">
-                                <span>{{ article.source.name }}</span>
-                                <span>{{ article.publishedAt[:10] }}</span>
-                            </div>
-                            <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="read-more">Read full article →</a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="empty">⚠️ No news available right now. Please refresh later or try again in 1 hour.</p>
-                {% endif %}
+<div class="news-grid">
+    {% if articles and articles|length > 0 %}
+        {% for article in articles %}
+        <div class="news-card">
+            {% if article.urlToImage %}
+                <img src="{{ article.urlToImage }}" alt="News image" loading="lazy">
+            {% else %}
+                <div class="no-img">📰</div>
+            {% endif %}
+            <div class="news-content">
+                <h4>{{ article.title }}</h4>
+                <p>{{ article.description or "No summary available." }}</p>
+                <div class="news-meta">
+                    <span>{{ article.source.name }}</span>
+                    <span>{{ article.publishedAt[:10] }}</span>
+                </div>
+                <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="read-more">Read full article →</a>
             </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <!-- ✅ Acum se afișează doar dacă NU EXISTĂ NICIO ȘTIRE SALVATĂ NICIODATĂ -->
+        <p class="empty">⚠️ Se încarcă știrile... Vă rugăm reîmprospătați în câteva momente.</p>
+    {% endif %}
+</div>
 
             <div class="ad-bottom-full">
                 <div class="ad-label">Advertisement</div>
