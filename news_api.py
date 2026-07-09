@@ -5,35 +5,44 @@ from datetime import datetime, timedelta
 NEWS_API_KEY = os.getenv("NEWS_API_KEY", "").strip()
 
 cache = {}
-CACHE_DURATA = 2 * 60 * 60  # 2 ore
+CACHE_DURATA = 2 * 60 * 60
 
 def get_latest_news(category="general", country="gb", limit=12):
     global cache
-    cheie_cache = f"{category}_{country}"
+    cheie = f"{category}_{country}"
 
-    # Folosim date salvate dacă sunt proaspete
-    if cheie_cache in cache:
-        articole, data_salvare = cache[cheie_cache]
-        if datetime.now() - data_salvare < timedelta(seconds=CACHE_DURATA):
-            print(f"✅ Folosesc date salvate pentru: {category}")
+    if cheie in cache:
+        articole, data = cache[cheie]
+        if datetime.now() - data < timedelta(seconds=CACHE_DURATA):
             return articole
 
     if not NEWS_API_KEY:
-        print("⚠️ Cheie API lipsă, afișez ultimele știri salvate")
-        return cache.get(cheie_cache, ([], datetime.now()))[0]
+        return cache.get(cheie, [])[0] if cheie in cache else []
 
-    headers = {
-        "User-Agent": "MyPersonalAnalyst/1.0",
-        "Accept": "application/json"
-    }
+    headers = {"User-Agent": "Mozilla/5.0"}
 
     try:
         if category.lower() == "legal":
             url = "https://newsapi.org/v2/everything?q=law+legal+contract&language=en&pageSize={}&apiKey={}".format(limit, NEWS_API_KEY)
-            resp = requests.get(url, headers=headers, timeout=12)
         else:
-            # Întâi pe țară
-            url = "https://newsapi.org/v2/top-headlines?country={}&category={}&pageSize={}&apiKey={}".format(country, category, limit, NEWS_API_KEY)
+            # Căutăm DIRECT global pentru toate celelalte categorii
+            url = "https://newsapi.org/v2/top-headlines?category={}&language=en&pageSize={}&apiKey={}".format(category, limit, NEWS_API_KEY)
+
+        resp = requests.get(url, headers=headers, timeout=10)
+        if resp.status_code != 200:
+            return cache.get(cheie, [])[0] if cheie in cache else []
+
+        data = resp.json()
+        articole = data.get("articles", []) if data.get("status") == "ok" else []
+
+        if not articole and cheie in cache:
+            return cache[cheie][0]
+
+        cache[cheie] = (articole, datetime.now())
+        return articole
+
+    except Exception as e:
+        return cache.get(cheie, [])[0] if cheie in cache else []
             resp = requests.get(url, headers=headers, timeout=12)
 
             # Dacă nu avem rezultate pe țară, căutăm global
