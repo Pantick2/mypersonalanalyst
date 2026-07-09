@@ -1,39 +1,64 @@
 import os
-import json
 import requests
 from datetime import datetime, timedelta
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY", "").strip()
 
-# Calea către fișierul cu știri salvate
-CACHE_FISIER = "stiri_salvate.json"
+# 📦 Cache simplu în memorie + fallback la date vechi
+cache = {}
 CACHE_DURATA = 2 * 60 * 60  # 2 ore
 
-def incarca_stiri_salvate():
-    if os.path.exists(CACHE_FISIER):
-        try:
-            with open(CACHE_FISIER, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except:
-            return {}
-    return {}
-
-def salveaza_stiri_noi(date):
-    try:
-        with open(CACHE_FISIER, "w", encoding="utf-8") as f:
-            json.dump(date, f, ensure_ascii=False)
-    except Exception as e:
-        print(f"⚠️ Nu am putut salva știrile: {e}")
-
 def get_latest_news(category="general", country="gb", limit=12):
-    cache = incarca_stiri_salvate()
-    cheie_cache = f"{category}_{country}"
+    global cache
+    cheie = f"{category}_{country}"
 
-    date_salvate = cache.get(cheie_cache, {})
-    articole_vechi = date_salvate.get("articole", [])
-    data_actualizare = datetime.fromisoformat(date_salvate.get("data", "2000-01-01T00:00:00"))
+    # Folosim datele salvate dacă sunt proaspete
+    if cheie in cache:
+        date, data = cache[cheie]
+        if datetime.now() - data < timedelta(seconds=CACHE_DURATA):
+            print(f"✅ Folosesc date salvate: {category}")
+            return date
 
-    if datetime.now() - data_actualizare < timedelta(seconds=CACHE_DURATA):
+    # Dacă nu avem cheie, returnăm ultimele date salvate
+    if not NEWS_API_KEY:
+        print("⚠️ Cheie API lipsă, folosesc date salvate")
+        return cache.get(cheie, ([], datetime.now()))[0]
+
+    headers = {
+        "User-Agent": "MyPersonalAnalyst/1.0",
+        "Accept": "application/json"
+    }
+
+    try:
+        # Construim URL corect
+        if category.lower() == "legal":
+            url = "https://newsapi.org/v2/everything?q=law+legal+contract&language=en&pageSize={}&apiKey={}".format(limit, NEWS_API_KEY)
+        else:
+            url = "https://newsapi.org/v2/top-headlines?country={}&category={}&pageSize={}&apiKey={}".format(country, category, limit, NEWS_API_KEY)
+
+        resp = requests.get(url, headers=headers, timeout=12)
+
+        # Dacă API-ul nu merge, returnăm datele vechi
+        if resp.status_code != 200:
+            print(f"⚠️ API indisponibil, folosesc date salvate")
+            return cache.get(cheie, ([], datetime.now()))[0]
+
+        data = resp.json()
+        articole = data.get("articles", []) if data.get("status") == "ok" else []
+
+        # Dacă nu avem articole noi, păstrăm cele vechi
+        if not articole:
+            print(f"⚠️ Fără date noi, păstrez cele salvate")
+            return cache.get(cheie, ([], datetime.now()))[0]
+
+        # Salvăm noile articole
+        cache[cheie] = (articole, datetime.now())
+        print(f"✅ Date noi preluate pentru {category}")
+        return articole
+
+    except Exception as e:
+        print(f"❌ Eroare: {str(e)}")
+        return cache.get(cheie, ([], datetime.now()))[0]
         print(f"✅ Folosesc știrile salvate pentru {category}")
         return articole_vechi
 
