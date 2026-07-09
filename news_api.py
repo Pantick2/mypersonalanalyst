@@ -3,9 +3,15 @@ import requests
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY", "").strip()
 
+# Salvăm ultimele știri aici
+stiri_salvate = {}
+
 def get_latest_news(category="general", country="gb", limit=12):
+    global stiri_salvate
+
     if not NEWS_API_KEY:
-        return []
+        # Dacă nu avem cheie, returnăm ultimele știri salvate
+        return stiri_salvate.get(category, [])
 
     headers = {"User-Agent": "Mozilla/5.0"}
 
@@ -17,8 +23,20 @@ def get_latest_news(category="general", country="gb", limit=12):
     try:
         resp = requests.get(url, headers=headers, timeout=10)
         if resp.status_code != 200:
-            return []
+            # Dacă API-ul nu merge, folosim ce avem salvat
+            return stiri_salvate.get(category, [])
+
         data = resp.json()
-        return data.get("articles", []) if data.get("status") == "ok" else []
+        articole = data.get("articles", []) if data.get("status") == "ok" else []
+
+        if not articole:
+            # Dacă nu sunt articole noi, păstrăm cele vechi
+            return stiri_salvate.get(category, [])
+
+        # Salvăm noile știri
+        stiri_salvate[category] = articole
+        return articole
+
     except:
-        return []
+        # La orice eroare, folosim știrile salvate
+        return stiri_salvate.get(category, [])
